@@ -226,7 +226,7 @@ def prep_batch_query(df):
     header1_df = header_reorder(search_df)
     final_df = header_rename_col(header1_df)
 
-    YOUR_FINAL_DF_HERE.to_csv(r'/Users/isabelreyna/Downloads/NAME_OF_YOUR_FILE_HERE.csv', index = False)
+    YOUR_FINAL_DF_HERE.to_csv(r'/LOCATION_HERE/NAME_OF_YOUR_FILE_HERE.csv', index = False)
     return final_df
 
 prep_batch_query(df_contact)
