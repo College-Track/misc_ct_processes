@@ -193,6 +193,7 @@ def header_reorder(df):
     df[''] = ''
     df[''] = ''
     df["00"] = "00"    # assign 0 to all in this column to 0. You will need to convert this to '00' in your exported file before submitting
+    
     # 4. reorder columns again
     new_order02 = ['H1', '693622', 'first_name', 'middle_initial', 'last_name', 'suffix', 'birthdate', 'hs_class', '', '', '00', 'contact_id']
     df = df.reindex(columns = new_order02)
