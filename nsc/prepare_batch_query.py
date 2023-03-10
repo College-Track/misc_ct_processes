@@ -212,6 +212,10 @@ def header_rename_col(df):
         df = df.rename(columns = {df.columns[i] : rename_header[i]})    #  Creates a dict where the old column name is the KEY, and the corresponding new column name is the VALUE.
                                                                         # `i` will take on the values 0, 1, 2, etc. in each iteration of the loop.
                                                                         #  selects the old column name corresponding to the current value of i on the left
+    
+    # 2. Make return field column ('contact_id') blank 
+    df = df.rename(columns = {'contact_id' : ''}) 
+    
     return df
 
 
