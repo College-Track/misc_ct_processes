@@ -215,7 +215,6 @@ def header_rename_col(df):
 
 
 def prep_batch_query(df):
-    #header_rename_col(df_contact)
     suffix_df = suffix(df)
     mi_df = middle_initial(suffix_df)
     drop_middle_df = drop_middle_name(mi_df)
