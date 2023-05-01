@@ -1,5 +1,5 @@
 /*
-Use this query to create career readiness activity records
+Use this query to create career readiness activity records for all regions, EXCEPT Bay Area
 Will only work if:
   - Career readiness records have already been generated
   - Visit dates have been updated, entered in the google sheet table used by BigQuery
@@ -22,9 +22,8 @@ WITH
               cde.record_type_id = '0121M000001cnVvQAI' #Career Externship
           AND cde.global_academic_year_c = 'a1b46000000dRRAAA2' # 2022-23
           AND program_participation_status_c = 'Interviewed, offered, and accepted'
-          --AND contact.region_short = 'Colorado'
-
         )
+        
   , visit_dates AS ( -- company visits for cde
     SELECT *
     FROM `data-warehouse-289815.google_sheets.cde_fy23_visit_dates`
@@ -32,7 +31,8 @@ WITH
 
   , join_visit_dates_to_cde AS (
     SELECT cde.*, dates.*
-    -- add visit dates and accounts to cde student records
+    
+    -- align visit dates & accounts to cde student records; join on region
     FROM
         reporting_group           AS cde
             LEFT JOIN visit_dates AS dates ON cde.region_cde = dates.region_id
@@ -56,4 +56,3 @@ WITH
 
 SELECT *
 FROM organize_fields_for_import
---WHERE Account <> 'CREW'
