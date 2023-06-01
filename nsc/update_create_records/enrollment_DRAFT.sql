@@ -368,16 +368,9 @@ WITH
           AT_Enrollment_Status_c NOT IN ("Full-time", "Part-time") -- not ft/pt in sfdc, but ft/pt in nsc
       AND ipeds_id_c = cs_ipeds_id -- sfdc college matches nsc college
     )
--- 2 categories for enrollment discepancy:
--- 1. sfdc enrollment status does not match nsc enrollment status AND the colleges listed for enrollment are NOT the same
--- 2. sfdc enrollment status does not match nsc enrollment status and the colleges are the SAME
-
 
 SELECT *
 FROM enrollment_discrepancies
-
--- SELECT DISTINCT College_Name, cs_college_name, ipeds_id, cs_college_branch_code_6, nsc_college_code_branch FROM mod_nsc
---match_nsc_to_pat
 
 
 /*
