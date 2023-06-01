@@ -209,7 +209,7 @@ WITH
           , pat.indicator_years_since_hs_graduation_c
 
             -- college data
-          , pat.AT_School_Name AS sfdc_college_name -- salesforce, school on PAT record. do i need this?
+          , pat.AT_School_Name AS sfdc_college_name 
           , nsc.College_Name   AS nsc_college_name -- nsc college name
           , nsc.college_academic_calendar
           , nsc.cs_ipeds_id -- ipeds (source: college scorecard)
