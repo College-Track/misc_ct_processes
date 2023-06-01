@@ -54,6 +54,7 @@ WITH
   , global_at AS ( -- includes some field modification to reduce CTE count
     SELECT
         GAS_id
+      , academic_year_c
       , GAS_Name
       , GAS_Name_short
       , GAS_start_date
@@ -182,12 +183,13 @@ WITH
           , 7
           , 8
           , 9
+          , 10
           , contact_id_nsc
         )
 
   , nsc_grad_date_to_gas
         AS ( -- filter previous cte for global academic terms that we will use to map back to PATs; some students may have 2 GAS mapped to their grad date for this reason
-        SELECT DISTINCT nsc.*, gas.GAS_id, gas.GAS_Name, gas.academic_calendar_category_c AS GAS_calendar
+        SELECT DISTINCT nsc.*, gas.GAS_id, gas.academic_year_c, gas.GAS_Name, gas.academic_calendar_category_c AS GAS_calendar
         FROM
             mod_nsc                                 AS nsc
                 LEFT JOIN prep_nsc_grad_date_to_gas AS gas ON nsc.nsc_graduation_date = gas.nsc_graduation_date
@@ -257,6 +259,7 @@ WITH
       , cs_ipeds_id
       , account_id   AS sfdc_account_id
       , gas.GAS_id
+      , gas.academic_year_c
 
     FROM
         sfdc_nsc_matches                   AS sfdc_nsc
@@ -430,9 +433,10 @@ WITH
 
       -- import fields
       , Contact_Id                          AS Student__c
-      , College_Track_Status_Name           AS ct_status_at_c -- populate CT Status AT
+      , College_Track_Status_Name           AS ct_status_at_c
       , "01246000000RNnHAAW"                AS RecordTypeId -- PS record type
       , GAS_id                              AS Global_Academic_Semester__c
+      , academic_year_c                     AS Academic_Year__c -- AY id
       , CONCAT(GAS_Name, ' ', full_name_c)  AS Name
       , for_prod_account_id                 AS School__c
       , CASE
