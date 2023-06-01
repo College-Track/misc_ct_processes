@@ -397,11 +397,3 @@ WITH
         FROM rank
         )
     SELECT * FROM for_prod
-
-/* -- use this query to see if there are any students 
-   -- that may have been accidetnally filtered out downstream
-        SELECT full_name_c, nsc_college_name, AT_Name,college_academic_calendar, GAS_calendar
-        FROM nsc_to_pat_data
-        WHERE Contact_Id NOT IN (SELECT Contact_Id FROM for_prod)
-        GROUP BY 1,2,3,4,5
- */
