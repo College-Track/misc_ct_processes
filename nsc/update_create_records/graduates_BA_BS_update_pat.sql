@@ -334,7 +334,7 @@ WITH
                                ON pat.PAT_GAS_id = nsc.GAS_id AND pat.contact_id_mod = nsc.contact_id_nsc
         )
 
-     , align_acdemic_calendars AS ( -- create PAT records where GAS academic calendar aligns with college academic calendar
+     , align_acdemic_calendars AS ( -- PAT records where GAS academic calendar aligns with college academic calendar
         SELECT *
         FROM nsc_to_pat_data
         WHERE
