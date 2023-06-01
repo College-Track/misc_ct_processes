@@ -433,6 +433,7 @@ WITH
 
       -- import fields
       , Contact_Id                          AS Student__c
+      , College_Track_Status_Name           AS student_audit_status__c
       , College_Track_Status_Name           AS ct_status_at_c
       , "01246000000RNnHAAW"                AS RecordTypeId -- PS record type
       , GAS_id                              AS Global_Academic_Semester__c
