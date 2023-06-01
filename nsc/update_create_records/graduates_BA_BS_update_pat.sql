@@ -1,4 +1,5 @@
 -- Students that graduated, and have the PAT record associated with grad date
+-- Student has PAT record
 WITH
     nsc AS (
         SELECT *, REPLACE(Requester_Return_Field, "_", "") AS contact_id_nsc -- remove ' _ '
