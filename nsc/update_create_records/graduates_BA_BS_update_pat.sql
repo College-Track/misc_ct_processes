@@ -368,32 +368,29 @@ WITH
 
       , for_prod AS ( -- add degree to PAT record
         SELECT DISTINCT
-          -- id fields
             Contact_Id
-          , for_prod_account_id
-          , AT_Id
-          , PAT_GAS_id
-
-          -- contact fields
           , full_name_c
           , site_short
-
-          -- pat data
           , for_prod_college_name
-          , CASE
-                WHEN INSTR(partition_sfdc_major, '|') > 0
-                    THEN SUBSTR(partition_sfdc_major, 1, INSTR(partition_sfdc_major, '|') - 1)
-                    ELSE partition_sfdc_major
-                END               AS sfdc_major -- if there is a comma "," then extract first string, otherwise just return the value
-
+          , partition_sfdc_major    AS list_sfdc_major
           , AT_Name
-          , partition_sfdc_major  AS list_sfdc_major
+          , PAT_GAS_id
 
           -- nsc data
           , nsc_graduation_date
           , nsc_college_name
-          , partition_nsc_degree  AS nsc_degree
-          , partition_nsc_major   AS nsc_major
+          , partition_nsc_degree    AS nsc_degree
+          , partition_nsc_major     AS nsc_major
+
+          -- import data
+         , AT_Id                    AS Id            -- PAT record id
+         , for_prod_account_id      AS School__c     -- College Account ID
+         , CASE
+                WHEN INSTR(partition_sfdc_major, '|') > 0
+                    THEN SUBSTR(partition_sfdc_major, 1, INSTR(partition_sfdc_major, '|') - 1)
+                    ELSE partition_sfdc_major
+                END                 AS Major__c -- if there is a comma "," then extract first string, otherwise just return the value
+         , "4-year degree"          AS Type_of_Degree_Earned__c
         FROM rank
         )
     SELECT * FROM for_prod
