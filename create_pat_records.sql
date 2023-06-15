@@ -239,6 +239,7 @@ CASE
     alumni_network_75_credits_c
   END
     AS alumni_network_75_credits_c,
+    '01246000000RNnHAAW' as record_type_id
   FROM
     filter_data )
 SELECT
