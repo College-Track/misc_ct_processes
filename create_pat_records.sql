@@ -147,7 +147,7 @@ CASE
 -- https://docs.google.com/spreadsheets/d/1xoz7mKWl8U1wyVSAz4mcsbE7I86rBRXwUawYdcfpcEY
 
 
-case when gas_term_to_create = 'Winter' then false else missing_advising_rubric_career_c end as missing_advising_rubric_career_c,
+case when gas_term_to_create = 'Winter' then false else true end as missing_advising_rubric_career_c,
 -- FIELDS THAT CARRY OVER EVERY TERM
     repayment_plan_c,
     repayment_policies_c,
