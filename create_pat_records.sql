@@ -35,7 +35,8 @@ WITH
     internship_5075_credits_c,
     post_graduate_opportunities_75_cred_c,
     interested_in_graduate_school_50_credits_c,
-    alumni_network_75_credits_c
+    alumni_network_75_credits_c,
+    missing_advising_rubric_career_c
 
   FROM
     `data-studio-260217.prod_core.contact_at_template`
@@ -61,6 +62,7 @@ WITH
     term_ids.GAS_id,
     term_ids.academic_year_c,
     term_ids.GAS_Name AS gas_name_to_create,
+    term_ids.term_c as gas_term_to_create
 
   
   FROM
@@ -144,6 +146,8 @@ CASE
 -- Details are found here: 
 -- https://docs.google.com/spreadsheets/d/1xoz7mKWl8U1wyVSAz4mcsbE7I86rBRXwUawYdcfpcEY
 
+
+case when gas_term_to_create = 'Winter' then false else missing_advising_rubric_career_c end as missing_advising_rubric_career_c,
 -- FIELDS THAT CARRY OVER EVERY TERM
     repayment_plan_c,
     repayment_policies_c,
