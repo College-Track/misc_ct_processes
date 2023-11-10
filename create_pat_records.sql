@@ -36,7 +36,12 @@ WITH
     post_graduate_opportunities_75_cred_c,
     interested_in_graduate_school_50_credits_c,
     alumni_network_75_credits_c,
-    missing_advising_rubric_career_c
+    missing_advising_rubric_academic_v_2_c, 
+    missing_advising_rubric_wellness_v_2_c, 
+    missing_advising_rubric_financial_v_2_c, 
+    missing_advising_rubric_career_v_2_c
+
+
 
   FROM
     `data-studio-260217.prod_core.contact_at_template`
@@ -147,7 +152,11 @@ CASE
 -- https://docs.google.com/spreadsheets/d/1xoz7mKWl8U1wyVSAz4mcsbE7I86rBRXwUawYdcfpcEY
 
 
-case when gas_term_to_create = 'Winter' then false else true end as missing_advising_rubric_career_c,
+case when gas_term_to_create IN ('Winter', 'Summer') then false else true end as missing_advising_rubric_career_v_2_c,
+case when gas_term_to_create IN ('Summer') then false else true end as missing_advising_rubric_financial_v_2_c,
+case when gas_term_to_create IN ('Summer') then false else true end as missing_advising_rubric_wellness_v_2_c,
+case when gas_term_to_create IN ('Summer') then false else true end as missing_advising_rubric_academic_v_2_c,
+ 
 -- FIELDS THAT CARRY OVER EVERY TERM
     repayment_plan_c,
     repayment_policies_c,
