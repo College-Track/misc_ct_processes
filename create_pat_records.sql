@@ -24,8 +24,9 @@ WITH
     cumulative_credits_awarded_most_recent_c,
     persistence_at_prev_enrollment_status_c,
     '01246000000RNnHAAW' AS record_type_id,
-    -- Advising Rubric Fields to Cary Over
+    -- Advising Rubric Fields to Carry Over
     financial_aid_package_c,
+    filing_status__c,
     repayment_plan_c,
     repayment_policies_c,
     loan_exit_c,
@@ -172,7 +173,8 @@ case when gas_term_to_create IN ('Summer') then false else true end as missing_a
 -- FIELDS THAT RESET EVERY NEW ACADEMIC YEAR
     case when term_to_create = 'Fall' then null
     else financial_aid_package_c end as financial_aid_package_c,
-
+    case when term_to_create = 'Fall' then null
+    else filing_status__c end as filing_status__c,
 
 
 
