@@ -29,7 +29,12 @@ with
             major_c,  -- text
             second_major_category_c,  -- picklist
             second_major_c,  -- text
-            minor_c  -- text
+            minor_c,  -- text
+
+            -- ACADEMIC TERM INFORMATION
+            at_name as current_at_name,
+            academic_calendar_ate_c as current_academic_calendar
+
         from `prod_core.fct_edcloud_academic_term_enrollment`
         where
             current_at_c = true
@@ -63,25 +68,6 @@ with
     ),
 
     -- GET INFORMATION FROM GLOBAL ACADEMIC TERM
-    current_at_data as (
-        select
-            at_id,
-            at_name as current_at_name,
-            academic_calendar_c as current_academic_calendar
-        from `data-studio-260217.prod_staging.stg_edcloud__academic_term`
-    ),
-
-    join_current_at as (
-        select
-            join_credit.*,
-            current_at_data.current_at_name,
-            current_at_data.current_academic_calendar
-        from join_credit
-        left join
-            current_at_data
-            on current_at_data.at_id = join_credit.current_ate_at
-    ),
-
     term_ids as (
         select
             at_id,
@@ -97,18 +83,18 @@ with
     -- JOIN TERM DATA FOR NEXT TERM
     join_term_ids as (
         select
-            join_current_at.*,
+            join_credit.*,
             term_ids.at_id,
             term_ids.academic_year_id,
             term_ids.at_name as at_name_to_create,
             term_ids.season as at_term_to_create,
             term_ids.start_date as enrollment_date,
             term_ids.exit_date
-        from join_current_at
+        from join_credit
         inner join
             term_ids
-            on join_current_at.start_date_of_term_to_create = term_ids.start_date
-            and join_current_at.current_academic_calendar = term_ids.academic_calendar_c
+            on join_credit.start_date_of_term_to_create = term_ids.start_date
+            and join_credit.current_academic_calendar = term_ids.academic_calendar_c
     ),
 
     prep_data as (
