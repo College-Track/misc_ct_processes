@@ -45,7 +45,11 @@ with
                 )
                 or (
                     current_ct_status_c = 'Inactive'
-                    and current_ct_phase_c in ('Post Secondary', 'Alumni')
+                    and current_ct_phase_c = 'Post Secondary'
+                    and years_since_high_school_graduation_ate_c < 5.99
+                )
+                or (
+                    current_ct_phase_c = 'Alumni'
                     and years_since_high_school_graduation_ate_c < 5.99
                 )
             )
