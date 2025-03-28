@@ -3,7 +3,7 @@ with
     -- GET DATA FROM CURRENT ATE
     gather_current_ate_data as (
         select
-            learner_account_id,
+            account_id,
             current_ct_status_c,
             current_ct_phase_c,
             years_since_high_school_graduation_ate_c,
@@ -58,17 +58,17 @@ with
     most_recent_credit as (
         select
             account_id,
-            cumulative_credits_awarded_most_recent_pc
+            num_cumulative_credits_most_recent_pc
         from `data-studio-260217.prod_core.dim_scholar`
     ),
 
     join_credit as ( 
         select
             gather_current_ate_data.*,
-            most_recent_credit.cumulative_credits_awarded_most_recent_pc
+            most_recent_credit.num_cumulative_credits_most_recent_pc
         from gather_current_ate_data
         left join most_recent_credit 
-        on most_recent_credit.account_id = gather_current_ate_data.learner_account_id
+        on most_recent_credit.account_id = gather_current_ate_data.account_id
     ),
 
     -- GET INFORMATION FROM GLOBAL ACADEMIC TERM
@@ -104,7 +104,7 @@ with
     prep_data as (
         select
             at_name_to_create,
-            learner_account_id,
+            account_id,
             ct_status_ate_c,
             previous_academic_term_enrollment_c,
             at_id,
@@ -143,7 +143,7 @@ with
             case
                 when current_ct_status_c != 'Active'
                 then null
-                else cumulative_credits_awarded_most_recent_pc
+                else num_cumulative_credits_most_recent_pc
             end as cumulative_credits_awarded_all_terms_c,
 
             -- following fields null for alumni
