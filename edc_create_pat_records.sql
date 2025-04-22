@@ -58,14 +58,14 @@ with
     most_recent_credit as (
         select
             account_id,
-            num_cumulative_credits_most_recent_pc
+            most_recent_num_cumulative_credits_pc
         from `data-studio-260217.prod_core.dim_scholar`
     ),
 
     join_credit as ( 
         select
             gather_current_ate_data.*,
-            most_recent_credit.num_cumulative_credits_most_recent_pc
+            most_recent_credit.most_recent_num_cumulative_credits_pc
         from gather_current_ate_data
         left join most_recent_credit 
         on most_recent_credit.account_id = gather_current_ate_data.account_id
@@ -101,12 +101,33 @@ with
             and join_credit.current_academic_calendar = term_ids.academic_calendar_c
     ),
 
+    -- JOIN ACADEMIC YEAR ENROLLMENT
+    get_aye as (
+        select
+            aye_id as academic_year_enrollment_c,
+            ay_id,
+            account_id
+        from `prod_core.fct_edcloud_academic_year_enrollment`
+    ),
+
+    join_aye as (
+        select
+            join_term_ids.*,
+            get_aye.academic_year_enrollment_c
+        from join_term_ids
+        left join get_aye
+        on
+            get_aye.account_id = join_term_ids.account_id
+            and get_aye.ay_id = join_term_ids.academic_year_id
+    ),
+
     prep_data as (
         select
             at_name_to_create,
             account_id,
             ct_status_ate_c,
             previous_academic_term_enrollment_c,
+            academic_year_enrollment_c,
             at_id,
             academic_year_id,
             student_academic_level,
@@ -143,7 +164,7 @@ with
             case
                 when current_ct_status_c != 'Active'
                 then null
-                else num_cumulative_credits_most_recent_pc
+                else most_recent_num_cumulative_credits_pc
             end as cumulative_credits_awarded_all_terms_c,
 
             -- following fields null for alumni
@@ -153,7 +174,7 @@ with
             case
                 when current_ct_phase_c = 'Alumni' then null else ct_coach_ate_c
             end as ct_coach_ate_c
-        from join_term_ids
+        from join_aye
     )
 
 select *
