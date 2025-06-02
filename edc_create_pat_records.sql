@@ -9,15 +9,15 @@ with
             years_since_high_school_graduation_ate_c,
 
             -- POPULATE THIS EVERY YEAR
-            'Spring' as term_to_create,
-            '2024-25' as year_to_create,
-            date(2025, 04, 01) as start_date_of_term_to_create,
+            'Summer' as term_to_create,
+            '2025-26' as year_to_create,
+            date(2025, 07, 01) as start_date_of_term_to_create,
 
             -- END MANUAL UPDATE
             ate_id as previous_academic_term_enrollment_c,
-            ate_at_id as current_ate_at,
+            at_id as current_ate_at,
             'Undergraduate' as student_academic_level,
-            learner_contact_id,
+            contact_id,
             ate_school_id,
             ct_coach_ate_c,
             ct_case_c,
@@ -75,7 +75,7 @@ with
     term_ids as (
         select
             at_id,
-            academic_year_id,
+            ay_id,
             at_name,
             season,
             academic_calendar_c,
@@ -89,7 +89,7 @@ with
         select
             join_credit.*,
             term_ids.at_id,
-            term_ids.academic_year_id,
+            term_ids.ay_id,
             term_ids.at_name as at_name_to_create,
             term_ids.season as at_term_to_create,
             term_ids.start_date as enrollment_date,
@@ -118,7 +118,7 @@ with
         left join get_aye
         on
             get_aye.account_id = join_term_ids.account_id
-            and get_aye.ay_id = join_term_ids.academic_year_id
+            and get_aye.ay_id = join_term_ids.ay_id
     ),
 
     prep_data as (
@@ -129,10 +129,10 @@ with
             previous_academic_term_enrollment_c,
             academic_year_enrollment_c,
             at_id,
-            academic_year_id,
+            ay_id,
             student_academic_level,
             ct_case_c,
-            learner_contact_id,
+            contact_id,
             owner_id,
             enrollment_date,
             exit_date,
